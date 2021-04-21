@@ -1,0 +1,21 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: jenkins-master-lb
+  namespace: jenkins
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-ssl-cert: arn:aws:acm:ap-southeast-1:026314219131:certificate/7155dafd-2529-40a8-951b-fcdebe361f7c
+    service.beta.kubernetes.io/aws-load-balancer-backend-protocol: http
+    service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "443"
+    service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: "*"
+spec:
+  ports:
+    - name: jenkins-master-lb
+      port: 443
+      targetPort: 8080
+    - name: jenkins-master-agent-lb
+      port: 50000
+      targetPort: 50000
+  selector:
+    app: jenkins-master
+  type: LoadBalancer
