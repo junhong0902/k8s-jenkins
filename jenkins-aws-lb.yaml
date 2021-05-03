@@ -19,3 +19,22 @@ spec:
   selector:
     app: jenkins-master
   type: LoadBalancer
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: jenkins-master-cip
+  namespace: jenkins
+spec:
+  ports:
+    - name: jenkins-master-cip
+      port: 80
+      targetPort: 8080
+    - name: jenkins-master-agent-cip
+      port: 50000
+      targetPort: 50000
+  selector:
+    app: jenkins-master
+  type: ClusterIP
